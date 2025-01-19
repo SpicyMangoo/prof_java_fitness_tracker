@@ -4,14 +4,14 @@ import java.time.LocalDate;
 
 public class Workout {
     private String workoutType;  // running, cycling, etc.
-    private double duration;     // in minutes
-    private double caloriesBurned;
+    private int duration;     // in minutes
+    private int caloriesBurned;
     
    // Empty constructor for Jackson filehandling use
     public Workout() {
     }
 
-    public Workout(String workoutType, double duration, double caloriesBurned) {
+    public Workout(String workoutType, int duration, int caloriesBurned) {
         this.workoutType = workoutType;
         this.duration = duration;
         this.caloriesBurned = caloriesBurned;
@@ -22,14 +22,14 @@ public class Workout {
     public void setWorkoutType(String workoutType) { this.workoutType = workoutType; }
 
     public double getDuration() { return duration; }
-    public void setDuration(double duration) { this.duration = duration; }
+    public void setDuration(int duration) { this.duration = duration; }
 
     public double getCaloriesBurned() { return caloriesBurned; }
-    public void setCaloriesBurned(double caloriesBurned) { this.caloriesBurned = caloriesBurned; }
+    public void setCaloriesBurned(int caloriesBurned) { this.caloriesBurned = caloriesBurned; }
 
 	
 	@Override
 	public String toString() {
-        return String.format("%s: %.0f min, %.0f calories", workoutType, duration, caloriesBurned);
+        return String.format("%s: %d min, %d calories", workoutType, duration, caloriesBurned);
 	}
 }

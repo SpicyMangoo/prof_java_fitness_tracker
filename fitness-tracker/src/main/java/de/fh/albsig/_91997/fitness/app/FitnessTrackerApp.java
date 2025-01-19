@@ -45,14 +45,12 @@ public class FitnessTrackerApp {
                 case 4:
                     running = false;
                     System.out.println("Goodbye!");
-                    System.exit(0);
                     break;
                 default:
                     System.out.println("Invalid choice. Try again.");
                     break;
             }    
         }
-        System.exit(0);
 	}
 	
 	private static void login() {
@@ -81,21 +79,23 @@ public class FitnessTrackerApp {
         String workoutType = scanner.nextLine();
 
         System.out.print("Enter duration (in minutes): ");
-        double workoutDuration = scanner.nextInt();
+        int workoutDuration = scanner.nextInt();
         scanner.nextLine(); 
 
         System.out.println("Calculating calories burned... ");
-        double caloriesBurned = caloriesAPI.getCaloriesBurned(workoutType, workoutDuration);
-        System.out.println("Workout burned " + caloriesBurned + " kcal!");
-        
-        Workout workout = new Workout(workoutType, workoutDuration, caloriesBurned);
-        trackerService.addWorkout(workout);
-
-        System.out.println("Workout added successfully!");
+        int caloriesBurned = caloriesAPI.getCaloriesBurned(workoutType, workoutDuration);
+        if (caloriesBurned > 0) {
+            System.out.println("Workout burned " + caloriesBurned + " kcal!");
+            Workout workout = new Workout(workoutType, workoutDuration, caloriesBurned);
+            trackerService.addWorkout(workout);
+            System.out.println("Workout added successfully!");
+        } else {
+            System.out.println("Failed to fetch calories burned. Please try again.");
+        }
 	}
 	
 	private static void saveData() {
-		System.out.println("Saving workouts from user: " + currentUser.getName());
+		System.out.println("Saving user data");
 		trackerService.saveWorkouts();
 	}
 	
