@@ -8,18 +8,16 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
+import io.github.cdimascio.dotenv.Dotenv;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.IOException;
 
 public class CaloriesAPI {
-    
-    private static final String APP_ID = "072f8431";
-    private static final String API_KEY = "c32f5e6f362142e5b21d07bd1cc38bc1";
+    private static final Dotenv dotenv = Dotenv.load();
+    private static final String APP_ID = dotenv.get("APP_ID");
+    private static final String API_KEY = dotenv.get("API_KEY");
     private static final String API_URL = "https://trackapi.nutritionix.com/v2/natural/exercise";
     
     // Create a Logger instance

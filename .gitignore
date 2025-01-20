@@ -47,3 +47,5 @@ buildNumber.properties
 .classpath
 
 .metadata/
+.env
+*_workouts.json
