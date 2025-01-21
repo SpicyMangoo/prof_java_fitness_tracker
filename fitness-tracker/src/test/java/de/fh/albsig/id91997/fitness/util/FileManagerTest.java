@@ -17,12 +17,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-
-
-
 /**
  * Unit test class for the FileManager class.
- * This class contains tests for saving workout data to a file using ObjectMapper.
+ * This class contains tests for saving workout data to a file using
+ * ObjectMapper.
  */
 public class FileManagerTest {
   @Mock

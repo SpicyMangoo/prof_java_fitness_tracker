@@ -179,7 +179,7 @@
 
           <configuration>
             <rulesets>
-              <ruleset>config/analysis/pmd-custom-rules.xml</ruleset>
+              <ruleset>config/analysis/pmd-custom-ruleset.xml</ruleset>
             </rulesets>
           </configuration>
 
