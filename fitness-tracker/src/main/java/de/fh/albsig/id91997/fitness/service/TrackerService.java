@@ -11,7 +11,8 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * Service class responsible for managing workouts and users.
- * It handles workout operations such as adding, loading, saving, and retrieving workouts.
+ * It handles workout operations such as adding, loading, saving, and retrieving
+ * workouts.
  */
 public class TrackerService {
 
@@ -22,12 +23,19 @@ public class TrackerService {
   private FileManager fileManager;
 
   /**
-   * Initializes a new TrackerService with an empty workout list and a FileManager.
+   * Initializes a new TrackerService with an empty workout list and a
+   * FileManager.
    */
   public TrackerService() {
     workouts = new ArrayList<>();
     LOGGER.info("TrackerService initialized");
     fileManager = new FileManager(new ObjectMapper());
+  }
+
+  public TrackerService(TrackerService other) {
+    this.user = other.getUser();
+    this.workouts = other.getWorkouts();
+    this.fileManager = new FileManager(new ObjectMapper());
   }
 
   /**

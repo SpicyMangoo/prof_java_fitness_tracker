@@ -4,8 +4,8 @@ import de.fh.albsig.id91997.fitness.model.User;
 import de.fh.albsig.id91997.fitness.model.Workout;
 import de.fh.albsig.id91997.fitness.service.CaloriesApi;
 import de.fh.albsig.id91997.fitness.service.TrackerService;
+
 import java.util.List;
-import java.util.Scanner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,21 +15,22 @@ import org.apache.logging.log4j.Logger;
  */
 public class FitnessTrackerApp {
   private static final Logger LOGGER = LogManager.getLogger(FitnessTrackerApp.class);
-  private TrackerService trackerService;
-  private Scanner scanner;
-  private CaloriesApi caloriesApi;
+  private final TrackerService trackerService;
+  private final CaloriesApi caloriesApi;
 
   /**
    * Constructor to initialize the FitnessTrackerApp.
-   *
-   * @param trackerService the service responsible for managing workouts and users
-   * @param caloriesApi the API used to calculate calories burned
-   * @param scanner the input scanner for user interactions
    */
-  public FitnessTrackerApp(TrackerService trackerService, CaloriesApi caloriesApi,
-      Scanner scanner) {
+  public FitnessTrackerApp() {
+    this.trackerService = new TrackerService();
+    this.caloriesApi = new CaloriesApi();
+  }
+
+  /**
+   * Constructor for mock Injections.
+   */
+  public FitnessTrackerApp(TrackerService trackerService, CaloriesApi caloriesApi) {
     this.trackerService = trackerService;
-    this.scanner = scanner;
     this.caloriesApi = caloriesApi;
   }
 
@@ -37,20 +38,19 @@ public class FitnessTrackerApp {
    * Logs in a user by prompting for a username.
    * Loads the user's existing workouts from the file system.
    */
-  public void login() {
-    System.out.println("Enter username to log in:");
-    String name = scanner.nextLine();
-    User user = new User(name);
+  public void login(String username) {
+    User user = new User(username);
     trackerService.setUser(user);
     trackerService.loadWorkoutsFromFile();
-    LOGGER.info("User {} logged in", name);
-    System.out.println("Hello, " + name + "!");
+    LOGGER.info("User {} logged in", username);
+    System.out.println("Hello, " + username + "!");
   }
 
   /**
    * Retrieves and displays the workouts of the logged-in user.
    *
-   * @return a concatenated string of all workouts or a message if no workouts exist
+   * @return a concatenated string of all workouts or a message if no workouts
+   *         exist
    */
   public String getWorkouts() {
     List<Workout> workouts = trackerService.getWorkouts();
@@ -70,18 +70,19 @@ public class FitnessTrackerApp {
   }
 
   /**
-   * Prompts the user to enter details of a workout, calculates calories burned, and adds it to the
+   * Prompts the user to enter details of a workout, calculates calories burned,
+   * and adds it to the
    * user's workout list.
    */
-  public void addWorkout() {
-    System.out.print("Enter the type of workout: ");
-    String workoutType = scanner.nextLine();
-
-    System.out.print("Enter duration (in minutes): ");
-    int workoutDuration = scanner.nextInt();
-    scanner.nextLine();
-
-    LOGGER.info("Adding workout: Type={}, Duration={} mins", workoutType, workoutDuration);
+  public void addWorkout(String workoutType, String duration) {
+    LOGGER.info("Adding workout: Type={}, Duration={} mins", workoutType, duration);
+    int workoutDuration;
+    try {
+      workoutDuration = Integer.parseInt(duration); // Try to parse the string as an integer
+    } catch (NumberFormatException e) {
+      System.out.println("Invalid duration input");
+      return; // If parsing fails, it's not an integer
+    }
 
     System.out.println("Calculating calories burned...");
     int caloriesBurned = caloriesApi.getCaloriesBurned(workoutType, workoutDuration);

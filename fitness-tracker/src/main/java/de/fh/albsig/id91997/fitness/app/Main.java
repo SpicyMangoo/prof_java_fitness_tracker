@@ -1,13 +1,13 @@
 package de.fh.albsig.id91997.fitness.app;
 
-import de.fh.albsig.id91997.fitness.service.CaloriesApi;
-import de.fh.albsig.id91997.fitness.service.TrackerService;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * The main entry point for the Fitness Tracker application. This class initializes the necessary
+ * The main entry point for the Fitness Tracker application. This class
+ * initializes the necessary
  * services and provides a menu-driven interface for the user.
  */
 public class Main {
@@ -19,15 +19,14 @@ public class Main {
    * @param args command-line arguments (not used in this application)
    */
   public static void main(String[] args) {
-    TrackerService trackerservice = new TrackerService();
-    CaloriesApi caloriesApi = new CaloriesApi();
-    Scanner scanner = new Scanner(System.in);
-
-    FitnessTrackerApp app = new FitnessTrackerApp(trackerservice, caloriesApi, scanner);
-
+    FitnessTrackerApp app = new FitnessTrackerApp();
+    Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8.name());
     LOGGER.info("Starting Fitness Tracker Application");
     System.out.println("Welcome to the Fitness Tracker!");
-    app.login();
+
+    System.out.println("Enter username to log in:");
+    String name = scanner.nextLine();
+    app.login(name);
 
     boolean running = true;
     while (running) {
@@ -39,6 +38,7 @@ public class Main {
 
       System.out.print("Choose an option: ");
       String choice = scanner.nextLine();
+      LOGGER.info("User selected option: {}", choice);
 
       switch (choice) {
         case "1":
@@ -46,7 +46,12 @@ public class Main {
           System.out.println(workouts);
           break;
         case "2":
-          app.addWorkout();
+          System.out.print("Enter the type of workout: ");
+          String workoutType = scanner.nextLine();
+
+          System.out.print("Enter duration (in minutes): ");
+          String workoutDuration = scanner.nextLine();
+          app.addWorkout(workoutType, workoutDuration);
           break;
         case "3":
           app.saveData();
@@ -62,5 +67,6 @@ public class Main {
           break;
       }
     }
+    scanner.close();
   }
 }
