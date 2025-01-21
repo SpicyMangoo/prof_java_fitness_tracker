@@ -181,6 +181,7 @@
             <rulesets>
               <ruleset>config/analysis/pmd-custom-ruleset.xml</ruleset>
             </rulesets>
+              <linkXRef>false</linkXRef>
           </configuration>
 
           <executions>
